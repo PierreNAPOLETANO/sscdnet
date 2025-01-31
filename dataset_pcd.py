@@ -35,15 +35,9 @@ class PCD(Dataset):
         fn_img_t1 = get_img_path(self.img_t1_root, filename, '.jpg')
         fn_mask = get_img_path(self.mask_root, filename, '.png')
 
-        if os.path.isfile(fn_img_t0) == False:
-            print ('Error: File Not Found: ' + fn_img_t0)
-            exit(-1)
-        if os.path.isfile(fn_img_t1) == False:
-            print ('Error: File Not Found: ' + fn_img_t1)
-            exit(-1)
-        if os.path.isfile(fn_mask) == False:
-            print ('Error: File Not Found: ' + fn_mask)
-            exit(-1)
+        self.ensure_files_exist(fn_img_t0)
+        self.ensure_files_exist(fn_img_t1)
+        self.ensure_files_exist(fn_mask)
 
         img_t0 = cv2.imread(fn_img_t0, cv2.IMREAD_COLOR)
         img_t1 = cv2.imread(fn_img_t1, cv2.IMREAD_COLOR)
@@ -78,6 +72,11 @@ class PCD(Dataset):
     def get_random_index(self):
         index = np.random.randint(0, len(self.filenames))
         return index
+    
+    def ensure_files_exist(file_path):
+        if os.path.isfile(file_path) == False:
+            print (f"Error: File Not Found: {file_path}")
+            exit(-1)
 
 
 
@@ -103,16 +102,9 @@ class PCD_full(Dataset):
         fn_img_t1 = get_img_path(self.img_t1_root, filename, '.jpg')
         fn_mask = get_img_path(self.mask_root, filename, '.png')
 
-        if os.path.isfile(fn_img_t0) == False:
-            print ('Error: File Not Found: ' + fn_img_t0)
-            exit(-1)
-        if os.path.isfile(fn_img_t1) == False:
-            print ('Error: File Not Found: ' + fn_img_t1)
-            exit(-1)
-
-        if os.path.isfile(fn_mask) == False:
-            print ('Error: File Not Found: ' + fn_mask)
-            exit(-1)
+        self.ensure_files_exist(fn_img_t0)        
+        self.ensure_files_exist(fn_img_t1)
+        self.ensure_files_exist(fn_mask)
 
         img_t0 = cv2.imread(fn_img_t0, cv2.IMREAD_COLOR)
         img_t1 = cv2.imread(fn_img_t1, cv2.IMREAD_COLOR)
@@ -135,5 +127,8 @@ class PCD_full(Dataset):
 
     def __len__(self):
         return len(self.filenames)
-
-
+    
+    def ensure_files_exist(file_path):
+        if os.path.isfile(file_path) == False:
+            print (f"Error: File Not Found: {file_path}")
+            exit(-1)
